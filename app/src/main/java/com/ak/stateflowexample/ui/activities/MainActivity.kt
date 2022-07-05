@@ -54,15 +54,20 @@ class MainActivity : AppCompatActivity() {
                         }
                         is Resource.Failure -> {
                             binding?.progressCircular?.visibility = View.GONE
+//                            if (result.isNetworkError){
+//
+//                            }else{
+//
+//                            }
                             Toast.makeText(
                                 this@MainActivity,
-                                "result.value==${result.errorBody}",
+                                result.errorMessage,
                                 Toast.LENGTH_SHORT
                             ).show()
+
                         }
                         is Resource.Success -> {
                             binding?.progressCircular?.visibility = View.GONE
-                            println("$result=={result.value}")
                             albumsAdapter.submitList(result.value)
                         }
                     }

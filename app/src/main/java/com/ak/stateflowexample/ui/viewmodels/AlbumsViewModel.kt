@@ -24,12 +24,18 @@ class AlbumsViewModel @Inject constructor(private val repository: Repository) : 
     private fun getNft() = viewModelScope.launch {
 
         mAlbumsResponse.emit(Resource.Loading)
-        val albums =   repository.getAlbums()
-
-        if(albums is Resource.Success){
+        val albums = repository.getAlbums()
+        if (albums is Resource.Success) {
             mAlbumsResponse.emit(Resource.Success(albums.value))
-        }else{
-            Resource.Failure(false, null, null)
+        } else if (albums is Resource.Failure) {
+            mAlbumsResponse.emit(
+                Resource.Failure(
+                    isNetworkError = albums.isNetworkError,
+                    errorCode = albums.errorCode,
+                    errorBody = albums.errorBody,
+                    errorMessage = albums.errorMessage
+                )
+            )
         }
 
     }
