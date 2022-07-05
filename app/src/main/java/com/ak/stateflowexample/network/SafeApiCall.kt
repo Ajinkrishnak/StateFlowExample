@@ -1,6 +1,5 @@
 package com.ak.stateflowexample.network
 
-import org.json.JSONObject
 import retrofit2.HttpException
 
 
@@ -14,8 +13,6 @@ interface SafeApiCall {
         } catch (throwable: Throwable) {
             when (throwable) {
                 is HttpException -> {
-                    val jsonObj = throwable.response()?.errorBody()?.charStream()?.readText()
-                        ?.let { JSONObject(it) }
                     Resource.Failure(
                         false,
                         throwable.code(),
